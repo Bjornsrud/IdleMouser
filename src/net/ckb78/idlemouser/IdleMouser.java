@@ -2,8 +2,6 @@ package net.ckb78.idlemouser;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Random;
@@ -57,7 +55,7 @@ public class IdleMouser {
 
     private static int getRandomValueInRange() {
         Random random = new Random();
-        return random.nextInt(IdleMouser.MOVE_DISTANCE - -10 + 1) + -10;
+        return random.nextInt(IdleMouser.MOVE_DISTANCE + 10 + 1) - 10;
     }
 
     private static void createAndShowGUI() {
@@ -109,21 +107,18 @@ public class IdleMouser {
 
     private static JButton getApplyButton(JTextField idleTimeField) {
         JButton applyButton = new JButton("SET NEW WAIT TIMER VALUE");
-        applyButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int idleTime = Integer.parseInt(idleTimeField.getText()) * 1000;
-                timer.cancel();
-                timer = new Timer();
-                timer.schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        if (isOn) {
-                            moveCursor();
-                        }
+        applyButton.addActionListener(e -> {
+            int idleTime = Integer.parseInt(idleTimeField.getText()) * 1000;
+            timer.cancel();
+            timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    if (isOn) {
+                        moveCursor();
                     }
-                }, idleTime, idleTime);
-            }
+                }
+            }, idleTime, idleTime);
         });
         return applyButton;
     }
